@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posts</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    #posts {
+        margin: 20px;
+    }
+    .post {
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+   <fieldset><h1>All Post</h1></fieldset>
+<div id="posts"></div>
+<script>
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts', true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const posts = JSON.parse(xhr.responseText);
+            const postsContainer = document.getElementById('posts');
+            posts.forEach((post,i) => {
+                const postElement = document.createElement('fieldset');
+                postElement.classList.add('post');
+                postElement.textContent =i+1 +". "+ post.title;
+                postsContainer.appendChild(postElement);
+            });
+        } else {
+            console.error('Error fetching posts:', xhr.statusText);
+        }
+    };
+    xhr.onerror = function() {
+        console.error('Request failed');
+    };
+    xhr.send();
+</script>
+</body>
+</html>
